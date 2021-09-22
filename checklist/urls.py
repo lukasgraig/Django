@@ -4,5 +4,6 @@ from django.urls import path
 
 urlpatterns = [
     path('', views.CheckListView.as_view(), name='checklist'),
-    path('create/', views.create_item, name='create')
+    path('create/', views.create_item, name='create'),
+    path('<int:id>', views.update, name='update'),
 ]
