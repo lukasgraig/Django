@@ -14,7 +14,8 @@
             {% for post in checklist_list %}
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="card-title">{{ post.title }}</h2>
+                    <h2 class="card-title">{{ post.title }} | {{ post.completed }}</h2>
+                    <a type=submit class="btn btn-primary" href="{% url 'update' post.id%}">Complete</a>
                     {% if post.status == 0 %}
                         <h2 class="card-title alert alert-success" role="alert">{{post.get_status_display}}</h2>
                     {% elif post.status == 1 %}
