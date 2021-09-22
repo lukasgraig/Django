@@ -1,0 +1,20 @@
+{% extends 'blogs/base.html' %}
+
+{% block title %}Sign Up{% endblock %}
+
+
+{% block content %}
+<style>
+  body { background: blueviolet !important; } /* Adding !important forces the browser to overwrite the default style applied by Bootstrap */
+</style>
+
+
+  <h2>Sign up</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Sign Up</button>
+    <a href = "{% url 'login' %}">Already have an account? Login here!</a>
+  </form>
+
+{% endblock %}
