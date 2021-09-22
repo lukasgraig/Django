@@ -2,6 +2,8 @@ from django.views import generic
 from django.shortcuts import render, redirect
 from .models import CheckList
 from .forms import CheckListForm
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 class CheckListView(generic.ListView):
@@ -11,7 +13,6 @@ class CheckListView(generic.ListView):
 def create_item(request):
     if request.method == 'POST':
         form = CheckListForm(request.POST or None)
-        
         # check if form data is valid
         if form.is_valid():
             # save the form data to model
@@ -21,3 +22,9 @@ def create_item(request):
         form = CheckListForm()
   
     return render(request, "checklist/create.html", {'form': form})
+
+def update(request, id):
+    done = CheckList.objects.get(id=id)
+    done.completed = True
+    done.save()
+    return HttpResponseRedirect(reverse('checklist'))
