@@ -25,6 +25,9 @@ def create_item(request):
 
 def update(request, id):
     done = CheckList.objects.get(id=id)
-    done.completed = True
+    if done.completed == True:
+        done.completed = False
+    else:
+        done.completed = True
     done.save()
     return HttpResponseRedirect(reverse('checklist'))
