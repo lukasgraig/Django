@@ -1,9 +1,9 @@
-
 from django.contrib.auth.forms import UserCreationForm, UserModel
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import render
+from django.contrib.auth import logout
 
 
 class SignUpView(generic.CreateView):
@@ -17,3 +17,7 @@ def user_profile(request, user):
     except UserModel.DoesNotExist:
         raise Http404(f"{user} does not exist")
     return render(request, 'registration/profile.html', {'user': user})
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect('blogs/post-detail.html')
