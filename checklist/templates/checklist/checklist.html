@@ -14,15 +14,21 @@
             {% for post in checklist_list %}
             <div class="card mb-4">
                 <div class="card-body">
-                    <h2 class="card-title">{{ post.title }} | {{ post.completed }}</h2>
-                    <a type=submit class="btn btn-primary" href="{% url 'update' post.id%}">Complete</a>
-                    {% if post.status == 0 %}
-                        <h2 class="card-title alert alert-success" role="alert">{{post.get_status_display}}</h2>
-                    {% elif post.status == 1 %}
-                        <h2 class="card-title alert alert-warning" role="alert">{{post.get_status_display}}</h2>
-                    {% elif post.status == 2 %}
-                        <h2 class="card-title alert alert-danger" role="alert">{{post.get_status_display}}</h2>
+                    {% if post.completed == True %}
+                        <h2 class="card-title">{{ post.title }} <a type=submit type="button" class="btn btn-success active" href="{% url 'update' post.id%}">Completed</a></h2>
+                    {% else %}
+                        <h2 class="card-title">{{ post.title }} <a type=submit type="button" class="btn btn-danger active" href="{% url 'update' post.id%}">Not Completed</a></h2>
                     {% endif %}
+                    <div class="col-md-4 text-center">
+                        
+                        {% if post.status == 0 %}
+                            <h2 class="card-title alert alert-success" role="alert">{{post.get_status_display}}</h2>
+                        {% elif post.status == 1 %}
+                            <h2 class="card-title alert alert-warning" role="alert">{{post.get_status_display}}</h2>
+                        {% elif post.status == 2 %}
+                            <h2 class="card-title alert alert-danger" role="alert">{{post.get_status_display}}</h2>
+                        {% endif %}
+                    </div>
                     <p class="card-text text-muted h6">{{ post.created_on}} </p>
                     <p class="card-text">{{ post.description }}</p>
                 </div>
