@@ -4,12 +4,14 @@ from .models import CheckList
 from .forms import CheckListForm
 from django.urls import reverse
 from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 class CheckListView(generic.ListView):
     queryset = CheckList.objects.all()
     template_name = 'checklist/checklist.html'
 
+@login_required(login_url='login')
 def create_item(request):
     if request.method == 'POST':
         form = CheckListForm(request.POST or None)
@@ -17,7 +19,7 @@ def create_item(request):
         if form.is_valid():
             # save the form data to model
             form.save()
-        return redirect('checklist')
+            return redirect('checklist')
     else:
         form = CheckListForm()
   
