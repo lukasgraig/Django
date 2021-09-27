@@ -1,7 +1,6 @@
 from django.views import generic
-
 from django.shortcuts import render, redirect
-
+from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import BlogForm
 
@@ -15,6 +14,7 @@ class PostDetail(generic.DetailView):
     model = Post
     template_name = 'blogs/post-detail.html'
 
+@login_required(login_url='login')
 def create_blog(request):
     if request.method == 'POST':
     # create object of form
