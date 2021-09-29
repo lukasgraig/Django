@@ -3,6 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import BlogForm
+from django.views.generic.edit import CreateView
 
 # Create your views here.
 
@@ -19,9 +20,13 @@ def create_blog(request):
     if request.method == 'POST':
     # create object of form
         form = BlogForm(request.POST)
-        
+
         if form.is_valid():
-            form.save()
+            task_list = form.save(commit=False)
+            task_list.author = request.user
+            task_list.save()
+
+
         return redirect('home')
 
     else:
