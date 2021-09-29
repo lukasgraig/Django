@@ -18,9 +18,13 @@ class Post(models.Model):
     text = models.TextField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    likes = models.ManyToManyField(User, related_name = 'blog_likes')
 
     class Meta:
         ordering = ['-created_on']
+
+    def total_likes(self):
+        return self.likes.count()
 
     def save(self,*args,**kwargs):
         self.slug=slugify(self.title)
