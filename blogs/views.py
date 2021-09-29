@@ -4,6 +4,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Post
 from .forms import BlogForm
 from django.views.generic.edit import CreateView
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 
 # Create your views here.
 
@@ -14,6 +17,11 @@ class PostList(generic.ListView):
 class PostDetail(generic.DetailView):
     model = Post
     template_name = 'blogs/post-detail.html'
+
+def like_view(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    post.likes.add(request.user)
+    return redirect('post_detail', post.slug)
 
 @login_required(login_url='login')
 def create_blog(request):
