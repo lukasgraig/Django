@@ -33,6 +33,11 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
+class PostComment(models.Model):
+    comment = models.CharField(max_length=144)
+    post = models.ManyToManyField(Post)
+
+
 def slug_generator(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = "SLUG"
