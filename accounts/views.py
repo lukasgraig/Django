@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.shortcuts import render
 from django.contrib.auth import logout
-
+from blogs.models import Post
 
 class SignUpView(generic.CreateView):
     form_class = UserCreationForm
@@ -14,9 +14,11 @@ class SignUpView(generic.CreateView):
 def user_profile(request, user):
     try:
         user = UserModel.objects.get(username=user)
+        post = Post.objects.filter(author=user)
+
     except UserModel.DoesNotExist:
         raise Http404(f"{user} does not exist")
-    return render(request, 'registration/profile.html', {'user': user})
+    return render(request, 'registration/profile.html', {'post': post})
 
 def logout_view(request):
     logout(request)
