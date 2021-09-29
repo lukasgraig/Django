@@ -1,7 +1,8 @@
 from django.db import models
-from django import forms
 from django.contrib.auth.models import User
-
+from django.utils.text import slugify
+from django.db.models.signals import pre_save
+from blogsite.utils import unique_slug_generator
 # Create your models here.
 
 STATUS = (
@@ -21,5 +22,15 @@ class Post(models.Model):
     class Meta:
         ordering = ['-created_on']
 
+    def save(self,*args,**kwargs):
+        self.slug=slugify(self.title)
+        super(Post,self).save(*args,**kwargs)
+
     def __str__(self):
         return self.title
+
+def slug_generator(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = "SLUG"
+
+pre_save.connect(slug_generator, sender=Post)
