@@ -33,9 +33,17 @@ class Post(models.Model):
     def __str__(self):
         return self.title
 
-class PostComment(models.Model):
-    comment = models.CharField(max_length=144)
-    post = models.ManyToManyField(Post)
+class Comment(models.Model):
+    post = models.ForeignKey(Post,on_delete=models.CASCADE, related_name='comments')
+    body = models.TextField()
+    created_on = models.DateTimeField(auto_now_add=True)
+    active = models.BooleanField(default=False)
+
+    class Meta:
+        ordering = ['created_on']
+
+    def __str__(self):
+        return 'Comment {} '.format(self.body)
 
 
 def slug_generator(sender, instance, *args, **kwargs):
